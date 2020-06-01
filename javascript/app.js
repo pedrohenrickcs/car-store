@@ -30,14 +30,15 @@
 				var $tdYear = document.createElement('td');
 				var $tdColor = document.createElement('td');
 
-				$image.setAttribute('src', $('[data-js="image"]').get().value);
 				$tdImage.appendChild($image);
-
-				$tdImage.textContent = $('[data-js="image"]').get().value;
+				
 				$tdBrand.textContent = $('[data-js="brand"]').get().value;
 				$tdYear.textContent = $('[data-js="year"]').get().value;
 				$tdBoard.textContent = $('[data-js="board"]').get().value;
 				$tdColor.textContent = $('[data-js="color"]').get().value;
+				
+				console.log('$image', $tdImage.appendChild($image));
+				$image.setAttribute('src', $('[data-js="image"]').get().value);
 
 				$tr.appendChild($tdImage);
 				$tr.appendChild($tdBrand);

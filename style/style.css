@@ -71,3 +71,9 @@ button:focus {
 .table-info table tbody tr:nth-child(odd) {
     background-color: #93d4ee;
 }
+
+.table-info table tbody img {
+    max-width: 150px;
+    max-height: 150px;
+    margin: 0 auto ;
+}
