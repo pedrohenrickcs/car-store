@@ -37,7 +37,6 @@
 				$tdBoard.textContent = $('[data-js="board"]').get().value;
 				$tdColor.textContent = $('[data-js="color"]').get().value;
 				
-				console.log('$image', $tdImage.appendChild($image));
 				$image.setAttribute('src', $('[data-js="image"]').get().value);
 
 				$tr.appendChild($tdImage);
