@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Car Store</title>
+
+	<link rel="stylesheet" href="./style/style.css">
+</head>
+<body>
+
+	<div class="content">
+		<section class="title">
+			<h1>
+				<span data-js="company"></span>
+				<span data-js="phone"></span>
+			</h1>
+		</section>
+
+		<section class="container form">
+			<form data-js="form">
+				<ul>
+					<li>
+						<label>Imagem do carro</label>
+						<input type="url" data-js="image">
+					</li>
+					<li>
+						<label>Marca / Modelo</label>
+						<input type="text" data-js="brand">
+					</li>
+					<li>
+						<label>Ano</label>
+						<input type="text" data-js="year">
+					 </li>
+					<li>
+						<label>Placa</label>
+						<input type="text" data-js="board">
+					</li>
+					<li>
+						<label>Cor</label>
+						<input type="text" data-js="color">
+					</li>
+					<li>
+						<button data-js="resgister">Registrar</button>
+					</li>
+				</ul>
+			</form>
+		</section>
+	
+		<section class="container table-info">
+			<table>
+				<thead>
+					<tr>
+						<th>Imagem do carro</th>
+						<th>Marca / Modelo</th>
+						<th>Ano</th>
+						<th>Placa</th>
+						<th>Cor</th>
+					</tr>
+				</thead>
+		
+				<tbody data-js="result"></tbody>
+			</table>
+		</section>
+	</div>
+
+	<script src="./javascript/dom.js"></script>
+	<script src="./javascript/app.js"></script>
+</body>
+</html>
