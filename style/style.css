@@ -42,12 +42,23 @@ button {
     padding: 5px;
     background-color: #2b7795;
     color: #ffffff;
+    display: inline-block;
     border: none;
     border-radius: 5px;
 }
 
 button:focus {
     outline-color: #6bb3cf;
+}
+
+.btn {
+    display: block;
+    float: left;
+    margin-right: 5px;
+}
+
+.remove {
+    background-color: #a30e0e;
 }
 
 .table-info {

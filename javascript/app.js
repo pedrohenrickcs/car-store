@@ -2,15 +2,63 @@
   'use strict';
 
 	var app = (function() {
+		
 		return {
 			init: function init() {
 				this.getCompanyInfo();
 				this.companyInfo();
 				this.initEvents();
+				this.initInfo();
+			},
+
+			initInfo: function initInfo() {
+				var get = new XMLHttpRequest();
+
+				get.open('GET', 'http://localhost:3000/car');
+				get.send();
+
+				get.onreadystatechange = function () {
+					if (get.readyState === 4) {
+						var res = JSON.parse(get.responseText);
+						res.map(function (items) {
+							
+							console.log('responseText', items);
+
+							var $fragment = document.createDocumentFragment();
+							var $tr = document.createElement('tr');
+							var $tdImage = document.createElement('td');
+							var $image = document.createElement('img');
+							var $tdBrand = document.createElement('td');
+							var $tdBoard = document.createElement('td');
+							var $tdYear = document.createElement('td');
+							var $tdColor = document.createElement('td');
+
+							$tdImage.appendChild($image);
+
+							$tdBrand.textContent = items.brandModel;
+							$tdYear.textContent = items.year;
+							$tdBoard.textContent = items.plate;
+							$tdColor.textContent = items.color;
+
+							$image.setAttribute('src', items.image);
+
+							$tr.appendChild($tdImage);
+							$tr.appendChild($tdBrand);
+							$tr.appendChild($tdYear);
+							$tr.appendChild($tdBoard);
+							$tr.appendChild($tdColor);
+
+							var $tablecar = document.querySelector('[data-js="result"');
+							$tablecar.appendChild($fragment.appendChild($tr));
+							
+						})
+					}
+				}
 			},
 
 			initEvents: function initEvents() {
 				$('[data-js="form"]').on('submit', this.handleSubmit)
+				$('[data-js="remove"]').on('click', this.handleRemove)
 			},
 
 			handleSubmit: function (e) {
@@ -18,6 +66,30 @@
 
 				var $tablecar = document.querySelector('[data-js="result"');
 				$tablecar.appendChild(app.createNewCar());
+
+				var image = document.createElement('img').setAttribute('src', $('[data-js="image"]').get().value);
+				var brand = $('[data-js="brand"]').get().value;
+				var year = $('[data-js="year"]').get().value;
+				var plate = $('[data-js="board"]').get().value;
+				var color = $('[data-js="color"]').get().value;
+
+				var post = new XMLHttpRequest();
+				post.open('POST', 'http://localhost:3000/car');
+				post.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+				post.send(`image=${image}&brandModel=${brand}&year=${year}&plate=${plate}&color=${color}`);
+
+				post.onreadystatechange = function () {
+					if (post.readyState === 4) {
+						console.log('Cadastrado', post.responseText);
+					}
+				}
+			},
+
+			handleRemove: function handleRemove(e) {
+				e.preventDefault();
+
+				var $removeItem = document.querySelector('tbody tr');
+				$removeItem !== null ? $removeItem.remove() : '';
 			},
 
 			createNewCar: function createNewCar() {
