@@ -23,37 +23,46 @@
 						res.map(function (items) {
 							
 							console.log('responseText', items);
-
-							var $fragment = document.createDocumentFragment();
-							var $tr = document.createElement('tr');
-							var $tdImage = document.createElement('td');
-							var $image = document.createElement('img');
-							var $tdBrand = document.createElement('td');
-							var $tdBoard = document.createElement('td');
-							var $tdYear = document.createElement('td');
-							var $tdColor = document.createElement('td');
-
-							$tdImage.appendChild($image);
-
-							$tdBrand.textContent = items.brandModel;
-							$tdYear.textContent = items.year;
-							$tdBoard.textContent = items.plate;
-							$tdColor.textContent = items.color;
-
-							$image.setAttribute('src', items.image);
-
-							$tr.appendChild($tdImage);
-							$tr.appendChild($tdBrand);
-							$tr.appendChild($tdYear);
-							$tr.appendChild($tdBoard);
-							$tr.appendChild($tdColor);
-
-							var $tablecar = document.querySelector('[data-js="result"');
-							$tablecar.appendChild($fragment.appendChild($tr));
 							
+							app.updateElements(items);
 						})
 					}
 				}
+			},
+
+			updateElements: function updateElements(items) {
+				var $fragment = document.createDocumentFragment();
+				var $tr = document.createElement('tr');
+				var $tdImage = document.createElement('td');
+				var $image = document.createElement('img');
+				var $tdBrand = document.createElement('td');
+				var $tdBoard = document.createElement('td');
+				var $tdYear = document.createElement('td');
+				var $tdColor = document.createElement('td');
+
+				$tdImage.appendChild($image);
+
+				$tdBrand.textContent = items.brandModel;
+				$tdYear.textContent = items.year;
+				$tdBoard.textContent = items.plate;
+				$tdColor.textContent = items.color;
+
+				console.log('iotems', items);
+				
+
+				$image.setAttribute('src', items.image);
+
+				$tr.appendChild($tdImage).setAttribute('data-js', 'image');
+				$tr.appendChild($tdBrand);
+				$tr.appendChild($tdYear);
+				$tr.appendChild($tdBoard).setAttribute('data-js', 'plate');
+
+				console.log('sfdfsf', $image);
+				
+				$tr.appendChild($tdColor);
+
+				var $tablecar = document.querySelector('[data-js="result"');
+				return $tablecar.appendChild($fragment.appendChild($tr));
 			},
 
 			initEvents: function initEvents() {
@@ -67,11 +76,14 @@
 				var $tablecar = document.querySelector('[data-js="result"');
 				$tablecar.appendChild(app.createNewCar());
 
-				var image = document.createElement('img').setAttribute('src', $('[data-js="image"]').get().value);
+				var image = document.createElement('img');
 				var brand = $('[data-js="brand"]').get().value;
 				var year = $('[data-js="year"]').get().value;
 				var plate = $('[data-js="board"]').get().value;
-				var color = $('[data-js="color"]').get().value;
+				var color = $('[data-js="color"]').get().value;		
+				
+				console.log('POST', image.setAttribute('src', $('[data-js="image"]').get().value));
+				
 
 				var post = new XMLHttpRequest();
 				post.open('POST', 'http://localhost:3000/car');
@@ -80,7 +92,7 @@
 
 				post.onreadystatechange = function () {
 					if (post.readyState === 4) {
-						console.log('Cadastrado', post.responseText);
+						console.log('Cadastrado', post);
 					}
 				}
 			},
@@ -88,8 +100,19 @@
 			handleRemove: function handleRemove(e) {
 				e.preventDefault();
 
-				var $removeItem = document.querySelector('tbody tr');
-				$removeItem !== null ? $removeItem.remove() : '';
+				var plate = document.querySelector('[data-js="plate"]');
+				plate.textContent !== null ? plate.parentNode.remove() : '';
+
+				var ajax = new XMLHttpRequest();
+				ajax.open('DELETE', 'http://localhost:3000/car');
+				ajax.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+				ajax.send(`plate=${plate.textContent}`);
+
+				ajax.onreadystatechange = function () {
+					if (ajax.readyState === 4) {
+						console.log('deletar', ajax);
+					}
+				}
 			},
 
 			createNewCar: function createNewCar() {
