@@ -21,9 +21,6 @@
 					if (get.readyState === 4) {
 						var res = JSON.parse(get.responseText);
 						res.map(function (items) {
-							
-							console.log('responseText', items);
-							
 							app.updateElements(items);
 						})
 					}
@@ -47,17 +44,12 @@
 				$tdBoard.textContent = items.plate;
 				$tdColor.textContent = items.color;
 
-				console.log('iotems', items);
-				
-
 				$image.setAttribute('src', items.image);
 
 				$tr.appendChild($tdImage).setAttribute('data-js', 'image');
 				$tr.appendChild($tdBrand);
 				$tr.appendChild($tdYear);
 				$tr.appendChild($tdBoard).setAttribute('data-js', 'plate');
-
-				console.log('sfdfsf', $image);
 				
 				$tr.appendChild($tdColor);
 
@@ -76,14 +68,11 @@
 				var $tablecar = document.querySelector('[data-js="result"');
 				$tablecar.appendChild(app.createNewCar());
 
-				var image = document.createElement('img');
+				var image = $('[data-js="image"]').get().value;
 				var brand = $('[data-js="brand"]').get().value;
 				var year = $('[data-js="year"]').get().value;
 				var plate = $('[data-js="board"]').get().value;
-				var color = $('[data-js="color"]').get().value;		
-				
-				console.log('POST', image.setAttribute('src', $('[data-js="image"]').get().value));
-				
+				var color = $('[data-js="color"]').get().value;
 
 				var post = new XMLHttpRequest();
 				post.open('POST', 'http://localhost:3000/car');
@@ -101,18 +90,22 @@
 				e.preventDefault();
 
 				var plate = document.querySelector('[data-js="plate"]');
-				plate.textContent !== null ? plate.parentNode.remove() : '';
 
-				var ajax = new XMLHttpRequest();
-				ajax.open('DELETE', 'http://localhost:3000/car');
-				ajax.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-				ajax.send(`plate=${plate.textContent}`);
+				if (document.querySelector('[data-js="result"] tr') !== null) {
+					plate.parentNode.remove();
 
-				ajax.onreadystatechange = function () {
-					if (ajax.readyState === 4) {
-						console.log('deletar', ajax);
+					var ajax = new XMLHttpRequest();
+					ajax.open('DELETE', 'http://localhost:3000/car');
+					ajax.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+					ajax.send(`plate=${plate.textContent}`);
+
+					ajax.onreadystatechange = function () {
+						if (ajax.readyState === 4) {
+							console.log('deletar', ajax);
+						}
 					}
 				}
+
 			},
 
 			createNewCar: function createNewCar() {
